@@ -96,8 +96,6 @@ const DocumentUpload = () => {
   
   
     setApplicants(updatedApplicants);
-  
-    // Clear the file state
     setFile(null);
   };
   
@@ -107,10 +105,10 @@ const DocumentUpload = () => {
     const numDocs = currentApplicant?.documents?.length || 0;
   
     if (numDocs > 0 && currentDocIndex + 1 < numDocs) {
-      // Move to the next document of the current applicant
+     
       setCurrentDocIndex(currentDocIndex + 1);
     } else if (currentApplicantIndex + 1 < applicants.length) {
-      // Move to the first document of the next applicant
+     
       setCurrentApplicantIndex(currentApplicantIndex + 1);
       setCurrentDocIndex(0);
     }
@@ -124,41 +122,41 @@ const DocumentUpload = () => {
     const numDocs = currentApplicant?.documents?.length || 0;
   
     if (currentApplicantIndex === applicants.length - 1 && currentDocIndex === numDocs - 1) {
-      return true; // Disable if on the last document of the last applicant
+      return true; 
     }
   
     return false;
   };
   
 
-  const handleBack = () => {
-    const currentApplicant = applicants[currentApplicantIndex];
-    const numDocs = currentApplicant?.documents?.length || 0;
+    const handleBack = () => {
+      const currentApplicant = applicants[currentApplicantIndex];
+      const numDocs = currentApplicant?.documents?.length || 0;
+    
+      if (numDocs > 0 && currentDocIndex > 0) {
+      
+        setCurrentDocIndex(currentDocIndex - 1);
+      } else if (currentApplicantIndex > 0) {
+     
+        const previousApplicant = applicants[currentApplicantIndex - 1];
+        const previousDocIndex = previousApplicant?.documents?.length - 1;
+        setCurrentApplicantIndex(currentApplicantIndex - 1);
+        setCurrentDocIndex(previousDocIndex);
+      }
+    };
+    
   
-    if (numDocs > 0 && currentDocIndex > 0) {
-      // Move to the previous document of the current applicant
-      setCurrentDocIndex(currentDocIndex - 1);
-    } else if (currentApplicantIndex > 0) {
-      // Move to the last document of the previous applicant
-      const previousApplicant = applicants[currentApplicantIndex - 1];
-      const previousDocIndex = previousApplicant?.documents?.length - 1;
-      setCurrentApplicantIndex(currentApplicantIndex - 1);
-      setCurrentDocIndex(previousDocIndex);
-    }
-  };
-  
-  // Determine if the Back button should be disabled
-  const isBackDisabled = () => {
-    if (applicants.length === 0) {
-      return true;
-    }
-  
-    if (currentApplicantIndex === 0 && currentDocIndex === 0) {
-      return true; // Disable if on the first document of the first applicant
-    }
-  
-    return false;
-  };
+    const isBackDisabled = () => {
+      if (applicants.length === 0) {
+        return true;
+      }
+    
+      if (currentApplicantIndex === 0 && currentDocIndex === 0) {
+        return true;
+      }
+    
+      return false;
+    };
   
 
   const handleDeleteApplicant = (id) => {
@@ -371,7 +369,7 @@ const DocumentUpload = () => {
 
       {/* Navigation buttons for switching applicants */}
       <Stack direction="row" spacing={2} justifyContent="space-between" alignItems="center" style={{ padding: 16 }}>
-        <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={handleBack} disabled={isBackDisabled}>
+        <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={handleBack} disabled={isBackDisabled()}>
           Back
         </Button>
         <Button variant="contained" endIcon={<ArrowForwardIcon />} onClick={handleNext} disabled={isNextDisabled()}>
